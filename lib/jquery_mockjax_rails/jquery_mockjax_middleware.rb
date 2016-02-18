@@ -11,8 +11,7 @@ class JqueryMockjaxMiddleware
 
   private
     def append_mockjaxes response
-      if response.is_a?(ActionDispatch::Response) && response.response_code == 200 && response.content_type == 'text/html'
-        binding.pry if response.content_type.include? 'json'
+      if (response.is_a?(ActionDispatch::Response) || response.is_a?(Rack::BodyProxy)) && response.response_code == 200 && response.content_type == 'text/html'
         response.body = response.body.gsub!(
           /(<\/head>)/,
           %Q{
